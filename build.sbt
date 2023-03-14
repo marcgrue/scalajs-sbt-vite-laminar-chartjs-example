@@ -28,4 +28,7 @@ lazy val livechart = project.in(file("."))
 
     // Depend on Laminar
     libraryDependencies += "com.raquo" %%% "laminar" % "15.0.1",
+
+    // Testing framework
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.29" % Test,
   )
