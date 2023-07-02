@@ -1,4 +1,4 @@
-# Vite-Laminar cross project
+# Vite-Laminar-ScalablyTyped cross project
 
 In project root, run the following commands:
 
@@ -8,6 +8,10 @@ In project root, run the following commands:
     # Install node libraries needed for Vite project
     cd vite
     npm install
+
+    # Install Chart.js dependency and Typescript type definitions
+    npm install -S chart.js@2.9.4
+    npm install -D @types/chart.js@2.9.29 typescript@4.9.5
 
     # Install vite-plugin-scalajs to connect to generated javascript
     npm install -D @scala-js/vite-plugin-scalajs@1.0.0

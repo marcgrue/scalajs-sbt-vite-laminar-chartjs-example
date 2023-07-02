@@ -11,6 +11,7 @@ lazy val root = project
 lazy val livechart = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Full)
   .enablePlugins(ScalaJSPlugin) // Enable the Scala.js plugin in this project
+  .jsEnablePlugins(ScalablyTypedConverterExternalNpmPlugin)
   .settings(
     scalaVersion := "3.3.0",
 
@@ -41,4 +42,7 @@ lazy val livechart = crossProject(JSPlatform, JVMPlatform)
         .withModuleSplitStyle(
           ModuleSplitStyle.SmallModulesFor(List("livechart")))
     },
+
+    // Tell ScalablyTyped that we manage `npm install` ourselves
+    externalNpm := baseDirectory.value,
   )
