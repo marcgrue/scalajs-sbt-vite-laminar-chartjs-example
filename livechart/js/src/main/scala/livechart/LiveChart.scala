@@ -22,6 +22,7 @@ object Main:
     div(
       h1("Live Chart"),
       renderDataTable(),
+      renderDataChart(),
       renderDataList(),
     )
   end appElement
@@ -36,7 +37,7 @@ object Main:
 
   def renderDataTable(): Element =
     table(
-      thead(tr(th("Label"), th("Price"), th("Count"), th("Full price2"), th("Action"))),
+      thead(tr(th("Label"), th("Price"), th("Count"), th("Full price"), th("Action"))),
       tbody(
         children <-- dataSignal.split(_.id) { (id, initial, itemSignal) =>
           renderDataItem(id, itemSignal)
@@ -85,7 +86,7 @@ object Main:
   end renderDataItem
 
   def inputForString(valueSignal: Signal[String],
-      valueUpdater: Observer[String]): Input =
+                     valueUpdater: Observer[String]): Input =
     input(
       typ := "text",
       value <-- valueSignal,
@@ -94,7 +95,7 @@ object Main:
   end inputForString
 
   def inputForDouble(valueSignal: Signal[Double],
-      valueUpdater: Observer[Double]): Input =
+                     valueUpdater: Observer[Double]): Input =
     val strValue = Var[String]("")
     input(
       typ := "text",
@@ -111,7 +112,7 @@ object Main:
   end inputForDouble
 
   def inputForInt(valueSignal: Signal[Int],
-      valueUpdater: Observer[Int]): Input =
+                  valueUpdater: Observer[Int]): Input =
     input(
       typ := "text",
       controlled(
@@ -122,4 +123,74 @@ object Main:
       ),
     )
   end inputForInt
+
+  /** Chart.js configuration for the bar chart. Needs Charts.js resolved by ScalablyTyped first. */
+  val chartConfig =
+    import typings.chartJs.mod.*
+    new ChartConfiguration {
+      `type` = ChartType.bar
+      data = new ChartData {
+        datasets = js.Array(
+          new ChartDataSets {
+            label = "Price"
+            borderWidth = 1
+            backgroundColor = "green"
+          },
+          new ChartDataSets {
+            label = "Full price"
+            borderWidth = 1
+            backgroundColor = "blue"
+          }
+        )
+      }
+      options = new ChartOptions {
+        scales = new ChartScales {
+          yAxes = js.Array(new CommonAxe {
+            ticks = new TickOptions {
+              beginAtZero = true
+            }
+          })
+        }
+      }
+    }
+  end chartConfig
+
+  def renderDataChart(): Element =
+    import scala.scalajs.js.JSConverters.*
+    import typings.chartJs.mod.*
+
+    var optChart: Option[Chart] = None
+
+    canvasTag(
+      // Regular properties of the canvas
+      width := "100%",
+      height := "200px",
+
+      // onMountUnmount callback to bridge the Laminar world and the Chart.js world
+      onMountUnmountCallback(
+        // on mount, create the `Chart` instance and store it in optChart
+        mount = { nodeCtx =>
+          val domCanvas: dom.HTMLCanvasElement = nodeCtx.thisNode.ref
+          val chart = Chart.apply.newInstance2(domCanvas, chartConfig)
+          optChart = Some(chart)
+        },
+        // on unmount, destroy the `Chart` instance
+        unmount = { thisNode =>
+          for (chart <- optChart)
+            chart.destroy()
+          optChart = None
+        }
+      ),
+
+      // Bridge the FRP world of dataSignal to the imperative world of the `chart.data`
+      dataSignal --> { data =>
+        for (chart <- optChart) {
+          chart.data.labels = data.map(_.label).toJSArray
+          chart.data.datasets.get(0).data = data.map(_.price).toJSArray
+          chart.data.datasets.get(1).data = data.map(_.fullPrice).toJSArray
+          chart.update()
+        }
+      },
+    )
+  end renderDataChart
 end Main
