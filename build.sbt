@@ -1,10 +1,31 @@
 import org.scalajs.linker.interface.ModuleSplitStyle
 
-lazy val livechart = project.in(file("."))
+lazy val root = project
+  .in(file("."))
+  .settings(name := "livechart")
+  .aggregate(
+    livechart.js,
+    livechart.jvm
+  )
+
+lazy val livechart = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Full)
   .enablePlugins(ScalaJSPlugin) // Enable the Scala.js plugin in this project
   .settings(
-    scalaVersion := "3.2.2",
+    scalaVersion := "3.3.0",
 
+    /* Depend on the scalajs-dom library.
+     * It provides static types for the browser DOM APIs.
+     */
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "2.4.0",
+
+    // Depend on Laminar
+    libraryDependencies += "com.raquo" %%% "laminar" % "15.0.1",
+
+    // Testing framework
+    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.29" % Test,
+  )
+  .jsSettings(
     // Tell Scala.js that this is an application with a main method
     scalaJSUseMainModuleInitializer := true,
 
@@ -20,15 +41,4 @@ lazy val livechart = project.in(file("."))
         .withModuleSplitStyle(
           ModuleSplitStyle.SmallModulesFor(List("livechart")))
     },
-
-    /* Depend on the scalajs-dom library.
-     * It provides static types for the browser DOM APIs.
-     */
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "2.4.0",
-
-    // Depend on Laminar
-    libraryDependencies += "com.raquo" %%% "laminar" % "15.0.1",
-
-    // Testing framework
-    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.29" % Test,
   )
