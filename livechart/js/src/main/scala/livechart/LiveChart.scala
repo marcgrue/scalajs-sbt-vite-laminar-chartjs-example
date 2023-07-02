@@ -36,7 +36,7 @@ object Main:
 
   def renderDataTable(): Element =
     table(
-      thead(tr(th("Label"), th("Price"), th("Count"), th("Full price2"), th("Action"))),
+      thead(tr(th("Label"), th("Price"), th("Count"), th("Full price"), th("Action"))),
       tbody(
         children <-- dataSignal.split(_.id) { (id, initial, itemSignal) =>
           renderDataItem(id, itemSignal)
