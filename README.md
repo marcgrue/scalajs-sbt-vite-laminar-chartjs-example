@@ -2,7 +2,7 @@
 
 Clone project, checkout this branch and run setup:
 
-    https://github.com/marcgrue/scalajs-sbt-vite-laminar-chartjs-example.git
+    git clone https://github.com/marcgrue/scalajs-sbt-vite-laminar-chartjs-example.git
     cd scalajs-sbt-vite-laminar-chartjs-example
     git checkout cross-scalablytyped
     ./setup.sh
