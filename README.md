@@ -3,10 +3,10 @@
 In project root, run the following commands:
 
     # create Vite project in vite directory
-    npm create vite@latest vite -- --template vanilla
+    npm create vite@4.1.0 vite-server -- --template vanilla
 
     # Install node libraries needed for Vite project
-    cd vite
+    cd vite-server
     npm install
 
     # Install Chart.js dependency and Typescript type definitions
@@ -36,7 +36,7 @@ In project root, run the following commands:
       
           // sbt project ID from within the sbt build to get fast/fullLinkJS from
           // default: the root project of the sbt build
-          projectID: 'livechartJS', // use output from js platform
+          projectID: 'appJS', // use output from js platform
       
           // URI prefix of imports that this plugin catches (without the trailing ':')
           // default: 'scalajs' (so the plugin recognizes URIs starting with 'scalajs:')
@@ -49,11 +49,11 @@ In project root, run the following commands:
     # Start sbt with continuous compilation
     cd ..
     sbt
-    > ~livechartJS/fastLinkJS
+    > ~appJS/fastLinkJS
 
 Open another terminal tab and start Vite server from vite directory:
 
-    cd vite
+    cd vite-server
     npm run dev
 
 Open http://localhost:5173 (port might be different if multiple Vite pages are open - see Vite output)

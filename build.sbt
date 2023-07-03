@@ -1,14 +1,6 @@
 import org.scalajs.linker.interface.ModuleSplitStyle
 
-lazy val root = project
-  .in(file("."))
-  .settings(name := "livechart")
-  .aggregate(
-    livechart.js,
-    livechart.jvm
-  )
-
-lazy val livechart = crossProject(JSPlatform, JVMPlatform)
+lazy val app = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Full)
   .enablePlugins(ScalaJSPlugin) // Enable the Scala.js plugin in this project
   .jsEnablePlugins(ScalablyTypedConverterExternalNpmPlugin)
@@ -44,5 +36,5 @@ lazy val livechart = crossProject(JSPlatform, JVMPlatform)
     },
 
     // Tell ScalablyTyped that we manage `npm install` ourselves
-    externalNpm := baseDirectory.value,
+    externalNpm := baseDirectory.value / "../../vite-server",
   )
