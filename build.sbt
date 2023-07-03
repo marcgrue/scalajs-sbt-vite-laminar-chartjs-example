@@ -35,6 +35,6 @@ lazy val app = crossProject(JSPlatform, JVMPlatform)
           ModuleSplitStyle.SmallModulesFor(List("livechart")))
     },
 
-    // Tell ScalablyTyped that we manage `npm install` ourselves
+    // Tell ScalablyTyped where we manage `npm install` ourselves
     externalNpm := baseDirectory.value / "../../vite-server",
   )
