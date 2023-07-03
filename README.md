@@ -2,6 +2,8 @@
 
 In project root, run:
 
+    https://github.com/marcgrue/scalajs-sbt-vite-laminar-chartjs-example.git
+    git checkout cross-laminar
     ./setup.sh
 
 Open another terminal process and start Vite server from vite directory:
