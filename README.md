@@ -1,8 +1,9 @@
 # Vite-Laminar-ScalablyTyped cross project
 
-In project root, run:
+Clone project, checkout this branch and run setup:
 
     https://github.com/marcgrue/scalajs-sbt-vite-laminar-chartjs-example.git
+    cd scalajs-sbt-vite-laminar-chartjs-example
     git checkout cross-scalablytyped
     ./setup.sh
 
