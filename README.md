@@ -7,7 +7,7 @@ Clone project, checkout this branch and run setup:
     git checkout cross-scalablytyped
     ./setup.sh
 
-Open another terminal process and start Vite server from the vite directory:
+Open another terminal process and start Vite server from the vite-server directory:
 
     cd scalajs-sbt-vite-laminar-chartjs-example/vite-server
     npm run dev
